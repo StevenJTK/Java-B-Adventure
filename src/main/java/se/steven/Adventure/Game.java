@@ -12,7 +12,7 @@ public class Game {
     private final static String WEST = "West";
     private final static String TOWN_CENTRE = "Town Centre";
     private final static String GAME_START = "Start";
-    private static String currentLocation = GAME_START;
+    private String currentLocation = GAME_START;
 
 
     // Initiates the adventure
@@ -28,13 +28,13 @@ public class Game {
                 case "Go East" -> East();
                 case "Go South" -> South();
                 case "Go West" -> West();
-                case "Go to Town" -> System.out.println("You head towards the closest town.");
+                case "Go to Town" -> townCentre();
                 case "Quit" -> running = false;
             }
         }
     }
 
-    public static void townCentre() {
+    public void townCentre() {
       if (!currentLocation.equals(TOWN_CENTRE)) {
           System.out.println("You can go North, East, South or West. ");
             currentLocation = TOWN_CENTRE;
@@ -47,7 +47,7 @@ public class Game {
  }
 
 
-    void North() {
+    private void North() {
         if (currentLocation.equals(TOWN_CENTRE)) {
             System.out.println("Going North");
             currentLocation = NORTH;

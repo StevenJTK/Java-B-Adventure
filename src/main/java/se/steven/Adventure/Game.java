@@ -2,8 +2,14 @@ package se.steven.Adventure;
 
 import java.util.Scanner;
 
+import static se.steven.Adventure.Creature.fightOneRound;
+
 public class Game {
     Scanner sc = new Scanner(System.in);
+
+    // Constructors
+    Player player = new Player(100, 25, "Steven");
+    Monster monster = new Monster(25, 10, "Goblin");
 
     // Constants
     private final static String NORTH = "North";
@@ -20,7 +26,7 @@ public class Game {
         boolean running = true;
 
         while (running) {
-          //  System.out.println("You can go North, East, South or West. ");
+            System.out.println("You can go North, East, South or West. ");
             String choice = sc.nextLine();
 
             switch (choice) {
@@ -29,6 +35,7 @@ public class Game {
                 case "Go South" -> South();
                 case "Go West" -> West();
                 case "Go to Town" -> townCentre();
+                case "Battle" -> fightOneRound();
                 case "Quit" -> running = false;
             }
         }
@@ -36,7 +43,7 @@ public class Game {
 
     public void townCentre() {
       if (!currentLocation.equals(TOWN_CENTRE)) {
-          System.out.println("You can go North, East, South or West. ");
+      //    System.out.println("You can go North, East, South or West. ");
             currentLocation = TOWN_CENTRE;
       } else {
         System.out.println("You cannot go that way yet. ");
@@ -87,4 +94,15 @@ public class Game {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
 

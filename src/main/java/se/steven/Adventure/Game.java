@@ -4,11 +4,11 @@ import java.util.Scanner;
 
 import static se.steven.Adventure.Creature.fightOneRound;
 
-public class Game {
+public class Game extends Creature {
     Scanner sc = new Scanner(System.in);
 
     // Constructors
-    Player player = new Player(100, 25, "Steven");
+    Player player = new Player(100, 24, "Steven");
     Monster monster = new Monster(25, 10, "Goblin");
 
     // Constants
@@ -18,7 +18,11 @@ public class Game {
     private final static String WEST = "West";
     private final static String TOWN_CENTRE = "Town Centre";
     private final static String GAME_START = "Start";
-    private String currentLocation = GAME_START;
+    private static String currentLocation = GAME_START;
+
+    Game(int health, int damage, String name) {
+        super(health, damage, name);
+    }
 
 
     // Initiates the adventure
@@ -26,7 +30,7 @@ public class Game {
         boolean running = true;
 
         while (running) {
-            System.out.println("You can go North, East, South or West. ");
+            System.out.println("You can go North, East, South, West, to Town or to Battle. Quit to Exit. ");
             String choice = sc.nextLine();
 
             switch (choice) {
@@ -35,7 +39,7 @@ public class Game {
                 case "Go South" -> South();
                 case "Go West" -> West();
                 case "Go to Town" -> townCentre();
-                case "Battle" -> fightOneRound();
+                case "Battle" -> fightOneRound(player, monster);
                 case "Quit" -> running = false;
             }
         }
@@ -93,6 +97,54 @@ public class Game {
             System.out.println("You cannot go that way at this time. ");
         }
     }
+
+
+    public void takeDamage(int damage) {
+
+    }
+
+    public void attack(Creature toAttack) {
+        toAttack.takeDamage(damage);
+    }
+
+
+    public boolean isAlive() {
+        return health > 0;
+    }
+
+
+    public static void executeAttack(Creature attacker, Creature defender) {
+        attacker.takeDamage(attacker.damage);
+        System.out.println(attacker.name + " has attacked " + defender.name);
+        defender.takeDamage(attacker.damage);
+        defender.health -= attacker.damage;
+        if (defender.isAlive()) {
+            System.out.println(defender.name + " now has " + defender.health + " health");
+        }   else {
+            System.out.println(defender.name + " is dead");
+            System.out.println("You take your loot back to town.");
+            currentLocation = TOWN_CENTRE;
+
+        }
+    }
+
+
+    public static void fightOneRound(Creature attacker, Creature defender) {
+        executeAttack(attacker, defender);
+
+        if(defender.health > 0) {
+            executeAttack(defender, attacker);
+        }
+    }
+
+
+
+
+
+
+
+
+
 }
 
 
